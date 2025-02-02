@@ -1,5 +1,7 @@
-import SimpleLightbox from "simplelightbox";
-import "simplelightbox/dist/simple-lightbox.min.css";
+import SimpleLightbox from "simplelightbox";// Описаний в документації
+import "simplelightbox/dist/simple-lightbox.min.css";// Додатковий імпорт стилів
+
+
 
 
 const images = [
@@ -68,29 +70,27 @@ const images = [
   },
 ];
 
-const imagesContainer = document.querySelector('.gallery');
+const gallery = document.querySelector(".gallery");
 
-const imagesMarkup = images
-  .map(({ preview, original, description }) => {
-    return `
-        <li class="gallery-item">
-<a class="gallery-link" href="${original}">
-    <img 
-        class="gallery-image" 
-        src="${preview}" 
-        alt="${description}" 
-        />
-</a>
-</li>
-      `;
-  })
-  .join('');
-  
+gallery.insertAdjacentHTML("beforeend", creatGallery(images));
 
-imagesContainer.innerHTML = imagesMarkup;
+function creatGallery(arr) {
+  return arr.map(({ preview, original, description })  => `<li class="gallery-item">
+    <a class="gallery-link" href="${original}" target>
+      <img
+        class="gallery-image"
+        src="${preview}"
+        data-source="${original}"
+        alt="${description}"
+      >
+    </a> 
+  </li>`)
+  .join("");
+}
 
-const lightbox = new SimpleLightbox('.gallery a', {
-  captionsData: 'alt',
-  captionsPosition: 'bottom',
-  captionsDelay: 250
+// для ініціалізації модального вікна
+const galleryModal = new SimpleLightbox('.gallery a', {
+    captions: true,
+    captionsData: 'alt',
+    captionDelay: 250
 });
